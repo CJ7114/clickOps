@@ -28,6 +28,12 @@ resource "aws_security_group" "flask_sg" {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -48,11 +54,6 @@ resource "aws_instance" "flask_ec2" {
         user = "ubuntu"
         private_key = file("C:/Users/CJ/Downloads/aws/balajikp.pem")
         host = self.public_ip 
-    }
-
-    provisioner "file" {
-        source = "flask_app.py"
-        destination = "/home/ubuntu/flask_app.py"      
     }
 
     provisioner "remote-exec" {
